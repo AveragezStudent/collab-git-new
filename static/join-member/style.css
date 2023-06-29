@@ -1,8 +1,94 @@
 * {
     font-family: 'Montserrat', sans-serif;
 }
-*{
-    padding: 0;
+
+body {
     margin: 0;
-    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+}
+
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("/static/join-member/images/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    background-color:black;
+    backdrop-filter: blur(30px);
+    border-radius: 30px;
+}
+
+label {
+    color: white;
+}
+
+.form-box input {
+    border-radius: 10px;
+}
+
+.form-box input:focus {
+    box-shadow: 0 0 0;
+    border: 1px solid #f6288c;
+}
+
+.form-box select {
+    border-radius: 10px;
+}
+
+.form-box select:focus {
+    box-shadow: 0 0 0;
+    border: 1px solid #f6288c;
+}
+
+.input-group-text {
+    border-radius: 0px 10px 10px 0px;
+}
+
+.kirim {
+    border-radius: 30px;
+    background-color: #C1E701;
+    width: 40%;
+    height: 40px;
+}
+
+.button-container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+  }
+.text h1 {
+    font-size: 60px;
+}
+
+@media screen and (max-width:992px) {
+    .text {
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .form-box {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .text h1 {
+        font-size: 33px;
+    }
+
+    .text h2 {
+        font-size: 20px;
+    }
 }
