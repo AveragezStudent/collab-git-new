@@ -13,41 +13,92 @@
   <title>Sign in & Sign up Form</title>
 </head>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function sign_up() {
+    $.ajax({
+      type: "POST",
+      url: "/sign_up",
+      data: {
+        name_give: $("#name").val(),
+        username_give: $("#daftar_username").val(),
+        email_give: $("#email").val(),
+        password_give: $("#daftar_password").val(),
+      },
+      success: function (response) {
+        if (response["result"] === "success") {
+          alert("User registration complete!");
+          window.location.href = "#sign-up";
+        } else {
+          alert(response["msg"]);
+        }
+      },
+      error: function (xhr, status, error) {
+        alert(xhr.responseText);
+      }
+    });
+  }
+
+  function sign_in() {
+    $.ajax({
+      type: "POST",
+      url: "/sign_in",
+      data: {
+        username_give: $('#login_username').val(),
+        password_give: $('#login_password').val(),
+      },
+      success: function (response) {
+        if (response['result'] === 'success') {
+          alert('Login complete!');
+          window.location.href = '/home';
+        } else {
+          alert(response['msg']);
+        }
+      },
+      error: function (xhr, status, error) {
+        alert(xhr.responseText);
+      }
+    });
+  }
+
+
+</script>
+
 <body>
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
-        <form action="#" class="sign-in-form">
+        <form action="#" id="sign-in" class="sign-in-form">
           <h2 class="title">Sign in</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Username" />
+            <input id="login_username" type="text" placeholder="Username" />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" />
+            <input id="login_password" type="password" placeholder="Password" />
           </div>
-          <input type="submit" value="Login" class="btn solid" />
+          <button onclick="sign_in()" class="btn solid">Sign In</button>
         </form>
-        <form action="#" class="sign-up-form">
+        <form action="#" id="sign-up" class="sign-up-form">
           <h2 class="title">Sign up</h2>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Name" />
+            <input id="name" type="text" placeholder="Name" />
           </div>
           <div class="input-field">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="Username" />
+            <input id="daftar_username" type="text" placeholder="Username" />
           </div>
           <div class="input-field">
             <i class="fas fa-envelope"></i>
-            <input type="email" placeholder="Email" />
+            <input id="email" type="email" placeholder="Email" />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" />
+            <input id="daftar_password" type="password" placeholder="Password" />
           </div>
-          <input type="submit" class="btn" value="Sign up" />
+          <button class="btn" onclick="sign_up()">Sign Up</button>
         </form>
       </div>
     </div>
@@ -55,7 +106,7 @@
     <div class="panels-container">
       <div class="panel left-panel">
         <div class="content">
-          <h3>Don’t have account?</h3>
+          <h3>Don’t have an account?</h3>
           <p>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
             ex ratione. Aliquid!
@@ -68,7 +119,7 @@
       </div>
       <div class="panel right-panel">
         <div class="content">
-          <h3>Already have account?</h3>
+          <h3>Already have an account?</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
             laboriosam ad deleniti.

@@ -30,13 +30,85 @@
   <!-- Template Main CSS File -->
   <link href="/static/homepage/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Arsha
-  * Updated: May 30 2023 with Bootstrap v5.3.0
-  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <!-- import jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Template Main CSS File -->
+  <link href="/static/admin/assets/css/style.css" rel="stylesheet">
+
+  <script>
+    function posting() {
+      let name = $("#name").val();
+      let rating = $("#rating").val();
+      let comment = $("#comment").val();
+
+      let form_data = new FormData();
+      form_data.append("name_give", name);
+      form_data.append("rating_give", rating);
+      form_data.append("comment_give", comment);
+
+      $.ajax({
+        type: "POST",
+        url: "/admin/testimoni",
+        data: form_data,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          console.log(response);
+          // After successfully adding the data, fetch and display the updated data
+          fetchDataAndDisplay();
+        },
+      });
+    }
+
+    function fetchDataAndDisplay() {
+      // Make an AJAX GET request to fetch the data from the server
+      $.ajax({
+        type: "GET",
+        url: "/admin/testimoni/data",
+        success: function (data) {
+          // Update the HTML table with the received data
+          updateTableWithData(data);
+        },
+      });
+    }
+
+    function updateTableWithData(data) {
+      // Clear existing table rows
+      $("#testi_data").empty();
+
+      // Loop through the data and add rows to the table
+      data.forEach(function (item, index) {
+        let row = `
+          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="/static/homepage/assets/img/profile_placeholder.png" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>${item.name}</h4>
+                <span>Member</span>
+                <p>${item.comment}</p>
+                <p>${getRatingStars(item.rating)}</p>
+              </div>
+            </div>
+          </div>`;
+        $("#testi_data").append(row);
+      });
+    }
+
+    function getRatingStars(rating) {
+      // You can customize this function to display stars based on the rating value
+      // For simplicity, we'll just display the rating as stars (⭐)
+      let stars = "";
+      for (let i = 0; i < rating; i++) {
+        stars += "⭐";
+      }
+      return stars;
+    }
+
+    // Fetch and display data when the page loads
+    $(document).ready(function () {
+      fetchDataAndDisplay();
+    });
+  </script>
 </head>
 
 <body>
@@ -97,7 +169,7 @@
         <h2>Testimonials</h2>
 
       </div>
-    </section><!-- End Breadcrumbs -->
+    </section>
 
     <!-- <section class="inner-page">
       <div class="container">
@@ -114,55 +186,9 @@
           <p>Latent gym has hundreds of active members in it, they also give feedback about LATEN GYM</p>
         </div>
 
-        <div class="row">
+        <div class="row" id="testi_data">
 
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="/static/homepage/assets/img/profile.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Member Name</h4>
-                <span>Member</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <p>⭐⭐⭐⭐⭐</p>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="/static/homepage/assets/img/profile.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Member Name</h4>
-                <span>Member</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <p>⭐⭐⭐⭐⭐</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="/static/homepage/assets/img/profile.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Member Name</h4>
-                <span>Member</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <p>⭐⭐⭐⭐⭐</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="/static/homepage/assets/img/profile.jpg" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Member Name</h4>
-                <span>Member</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
-                <p>⭐⭐⭐⭐⭐</p>
-              </div>
-            </div>
-          </div>
 
         </div>
 

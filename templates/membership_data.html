@@ -16,8 +16,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link
-    href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+        href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
     <!-- Vendor CSS Files -->
     <link href="/static/admin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/admin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -26,17 +26,76 @@
     <link href="/static/admin/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="/static/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="/static/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <!-- import jquery -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Template Main CSS File -->
     <link href="/static/admin/assets/css/style.css" rel="stylesheet">
 
-    <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: May 30 2023 with Bootstrap v5.3.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    <script>
+        function posting() {
+            let name = $("#name").val();
+            let address = $("#alamat").val();
+            let telfon = $("#telfon").val();
+            let package = $("#package").val();
+            let payment = $("#payment").val();
+
+            let form_data = new FormData();
+            form_data.append("name_give", name);
+            form_data.append("address_give", address);
+            form_data.append("telfon_give", telfon);
+            form_data.append("package_give", package);
+            form_data.append("payment_give", payment);
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/membership",
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response);
+                    // After successfully adding the data, fetch and display the updated data
+                    fetchDataAndDisplay();
+                },
+            });
+        }
+
+        function fetchDataAndDisplay() {
+            // Make an AJAX GET request to fetch the data from the server
+            $.ajax({
+                type: "GET",
+                url: "/admin/membership/data",
+                success: function (data) {
+                    // Update the HTML table with the received data
+                    updateTableWithData(data);
+                },
+            });
+        }
+
+        function updateTableWithData(data) {
+            // Clear existing table rows
+            $("tbody").empty();
+
+            // Loop through the data and add rows to the table
+            data.forEach(function (item, index) {
+                let row = `<tr style="align-items:left;">
+                                <th scope="row">${index + 1}</th>
+                                <td>${item.name}</td>
+                                <td>${item.address}</td>
+                                <td>${item.telfon}</td>
+                                <td>${item.package}</td>
+                                <td>${item.payment}</td>
+                           </tr>`;
+                $("tbody").append(row);
+            });
+        }
+
+        // Fetch and display data when the page loads
+        $(document).ready(function () {
+            fetchDataAndDisplay();
+        });
+    </script>
 </head>
 
 <body>
@@ -128,13 +187,7 @@
                 </a>
             </li>
             <!-- End Dashboard Nav -->
-            <li class="nav-item">
-                <a class="nav-link " href="admin_data.html">
-                    <i class="bi bi-menu-button-wide"></i>
-                    <span>Data Admin</span>
-                </a>
-            </li>
-
+          
             <li class="nav-item">
                 <a class="nav-link " href="user_data.html">
                     <i class="bi bi-menu-button-wide"></i>
@@ -191,7 +244,67 @@
                                     <h5 class="card-title">Data Membership</h5>
                                 </div>
                                 <div class="col-2" style="padding-top: 15px;">
-                                    <a type="button" class="btn btn-outline-primary" href="tambah_data_member.html">Tambah Data</a>
+                                    <div class="modal fade" id="tambah_data" aria-hidden="true"
+                                        aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalToggleLabel">Tambah Data
+                                                        Membership</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="row g-3">
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Name</label>
+                                                            <input type="text" class="form-control" id="nama"
+                                                                placeholder="Insert Name">
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Alamat</label>
+                                                            <input type="text" class="form-control" id="alamat"
+                                                                placeholder="Insert Name">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">No telepon</label>
+                                                            <input type="text" class="form-control" id="telfon"
+                                                                placeholder="Insert Name">
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Paket Member</label>
+                                                            <select class="form-select mb-3" id="paket" name="">
+                                                                <option value="" disabled selected>Pilih paket member</option>
+                                                                <option value="Daily">Daily</option>
+                                                                <option value="Monthly">Monthly</option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Pembayaran</label>
+                                                            <select class="form-select mb-3" id="pembayaran" name="">
+                                                                <option value="" disabled selected>Pilih pembayaran</option>
+                                                                <option value="BRI">BANK BRI</option>
+                                                                <option value="BCA">BANK BCA</option>
+                                                                <option value="MANDIRI">BANK MANDIRI</option>
+                                                                <option value="CASH">CASH</option>
+                                                            </select>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <button type="button" onclick="posting()"
+                                                            class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        href="#tambah_data" href="tambah_data_fasilitas.html">Tambah Data</a>
                                 </div>
                             </div>
 
@@ -200,22 +313,15 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Nama</th>
-                                        <th scope="col">Alamat</th>
-                                        <th scope="col">No telpon</th>
-                                        <th scope="col">Paket Member</th>
-                                        <th scope="col">Pembayaran</th>
+                                        <th scope="col" id="nama">Nama</th>
+                                        <th scope="col" id="alamat">Alamat</th>
+                                        <th scope="col" id="telfon">No telpon</th>
+                                        <th scope="col" id="paket">Paket Member</th>
+                                        <th scope="col" id="pembayaran">Pembayaran</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Brandon</td>
-                                        <td>jln banyuwangi</td>
-                                        <td>081354686659</td>
-                                        <td>Daily Package</td>
-                                        <td>Bank BRI</td>
-                                    </tr>
+                                <tbody id="testimoni-table-body">
+                                    <!-- Tabel akan diisi dengan data dari server -->
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
@@ -245,7 +351,8 @@
     </footer>
     <!-- End Footer -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="/static/admin/assets/vendor/apexcharts/apexcharts.min.js"></script>

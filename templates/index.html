@@ -39,6 +39,12 @@
   ======================================================== -->
 </head>
 
+<script>
+      function logout() {
+            alert('You have been logged out!')
+            window.location.href = '/admin/login'
+        }
+</script>
 <body>
 
     <!-- ======= Header ======= -->
@@ -98,10 +104,10 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="../sign-in.html">
+                            <button onclick="logout()" class="dropdown-item d-flex align-items-center">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
-                            </a>
+                            </button>
                         </li>
 
                     </ul>

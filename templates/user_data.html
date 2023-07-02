@@ -16,8 +16,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link
-    href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+        href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
     <!-- Vendor CSS Files -->
     <link href="/static/admin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/admin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -26,17 +26,72 @@
     <link href="/static/admin/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="/static/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="/static/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
+    <!-- import jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Template Main CSS File -->
     <link href="/static/admin/assets/css/style.css" rel="stylesheet">
 
-    <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: May 30 2023 with Bootstrap v5.3.0
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    <script>
+        function posting() {
+            let name = $("#name").val();
+            let username = $("#username").val();
+            let email = $("#email").val();
+            let password = $("#password").val();
+
+            let form_data = new FormData();
+            form_data.append("name_give", name);
+            form_data.append("username_give", username);
+            form_data.append("email_give", email);
+            form_data.append("password_give", password);
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/user_data",
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log(response);
+                    // After successfully adding the data, fetch and display the updated data
+                    fetchDataAndDisplay();
+                },
+            });
+        }
+
+        function fetchDataAndDisplay() {
+            // Make an AJAX GET request to fetch the data from the server
+            $.ajax({
+                type: "GET",
+                url: "/admin/user_data/data",
+                success: function (data) {
+                    // Update the HTML table with the received data
+                    updateTableWithData(data);
+                },
+            });
+        }
+
+        function updateTableWithData(data) {
+            // Clear existing table rows
+            $("tbody").empty();
+
+            // Loop through the data and add rows to the table
+            data.forEach(function (item, index) {
+                let row = `<tr>
+                                <th scope="row">${index + 1}</th>
+                                <td>${item.name}</td>
+                                <td>${item.username}</td>
+                                <td>${item.email}</td>
+                                <td>${item.password}</td>
+                           </tr>`;
+                $("tbody").append(row);
+            });
+        }
+
+        // Fetch and display data when the page loads
+        $(document).ready(function () {
+            fetchDataAndDisplay();
+        });
+    </script>
 </head>
 
 <body>
@@ -189,7 +244,54 @@
                                     <h5 class="card-title">Data User</h5>
                                 </div>
                                 <div class="col-2" style="padding-top: 15px;">
-                                    <a type="submit" class="btn btn-outline-primary" href="tambah_data_user.html">Tambah Data</a>
+                                    <div class="modal fade" id="tambah_data" aria-hidden="true"
+                                        aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalToggleLabel">Tambah Data
+                                                        User</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="row g-3">
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Name</label>
+                                                            <input type="text" class="form-control" id="name"
+                                                                placeholder="Insert Name">
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Username</label>
+                                                            <input type="text" class="form-control" id="username"
+                                                                placeholder="Insert Name">
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Email</label>
+                                                            <input type="email" class="form-control" id="email"
+                                                                placeholder="Insert Name">
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <label for="" class="form-label">Password</label>
+                                                            <input type="password" class="form-control" id="password"
+                                                                placeholder="Insert Name">
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="text-center">
+                                                        <button type="button" onclick="posting()"
+                                                            class="btn btn-primary">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                        href="#tambah_data" href="tambah_data_fasilitas.html">Tambah Data</a>
                                 </div>
                             </div>
 
@@ -202,18 +304,11 @@
                                         <th scope="col">Username</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Password</th>
-                                        <th scope="col">Role</th>
+                                        <!-- <th scope="col">Role</th> -->
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Brandonkent</td>
-                                        <td>brandon07</td>
-                                        <td>brandon1045@gmail.com</td>
-                                        <td>Brandon-01</td>
-                                        <td>User</td>
-                                    </tr>
+                                <tbody id="testimoni-table-body">
+                                    <!-- Tabel akan diisi dengan data dari server -->
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
@@ -242,7 +337,8 @@
     </footer>
     <!-- End Footer -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="/static/admin/assets/vendor/apexcharts/apexcharts.min.js"></script>

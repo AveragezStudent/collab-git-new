@@ -30,13 +30,119 @@
   <!-- Template Main CSS File -->
   <link href="/static/homepage/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: Arsha
-  * Updated: May 30 2023 with Bootstrap v5.3.0
-  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+
+  <script>
+
+
+    function posting() {
+      let nama = $("#nama").val();
+      let gambar = $("#gambar").prop("files")[0];
+
+
+      let form_data = new FormData();
+
+      form_data.append("nama_give", nama);
+      form_data.append("gambar_give", gambar);
+
+
+      $.ajax({
+        type: "POST",
+        url: "/admin/fasilitas",
+        data: form_data,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          console.log(response);
+          window.location.reload();
+        },
+      });
+    }
+    function fetchDataAndDisplay() {
+      // Make an AJAX GET request to fetch the data from the server
+      $.ajax({
+        type: "GET",
+        url: "/admin/fasilitas/data",
+        success: function (data) {
+          // Update the HTML table with the received data
+          updateTableWithData(data);
+        },
+      });
+    }
+
+    function updateTableWithData(data) {
+      // Clear existing table rows
+      $("#data_fasilitas").empty();
+
+      // Loop through the data and add rows to the table
+      data.forEach(function (item, index) {
+        let row = `<div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="card" style="border-radius: 30px; background: black; border: 0px;">
+              <img src="/static/${item.gambar}" class="card-img-top"
+                style="border-radius: 30px 30px 0px 0px;">
+              <div class="card-body">
+                <h5 class="card-title" style="text-align: center; color: white;">${item.nama}</h5>
+              </div>
+            </div>
+          </div>`;
+        $("#data_fasilitas").append(row);
+      });
+    }
+
+    // Fetch and display data when the page loads
+    $(document).ready(function () {
+      fetchDataAndDisplay();
+    });
+
+    function fetchDataAndDisplay2() {
+      // Make an AJAX GET request to fetch the data from the server
+      $.ajax({
+        type: "GET",
+        url: "/admin/testimoni/data",
+        success: function (data) {
+          // Update the HTML table with the received data
+          updateTableWithData2(data);
+        },
+      });
+    }
+
+    function updateTableWithData2(data) {
+      // Clear existing table rows
+      $("#testi_data").empty();
+
+      // Loop through the data and add rows to the table
+      data.forEach(function (item, index) {
+        let row = `<tr>
+                                <th scope="row">${index + 1}</th>
+                                <td>${item.name}</td>
+                                <td>${getRatingStars(item.rating)}</td>
+                                <td>${item.comment}</td>
+                           </tr>`;
+        $("#testi_data").append(row);
+      });
+    }
+
+    function getRatingStars(rating) {
+      // You can customize this function to display stars based on the rating value
+      // For simplicity, we'll just display the rating as stars (⭐)
+      let stars = "";
+      for (let i = 0; i < rating; i++) {
+        stars += "⭐";
+      }
+      return stars;
+    }
+
+    // Fetch and display data when the page loads
+    $(document).ready(function () {
+      fetchDataAndDisplay2();
+    });
+  </script>
 </head>
 
 <body>
@@ -95,7 +201,7 @@
           <h1>Transform Your Life</h1>
           <h2>Join our gym and start your transformation journey today</h2>
           <div class="d-flex justify-content-center justify-content-lg-start">
-            <a href="sign-up-&-sign-in.html" class="btn-get-started scrollto">Sign Up</a>
+            <a href="/login" class="btn-get-started scrollto">Sign Up</a>
             <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a> -->
           </div>
         </div>
@@ -231,36 +337,7 @@
           <h2>Facilities Gallery</h2>
         </div>
 
-        <div class="row" style="padding: 30px;">
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
-            <div class="card" style="border-radius: 30px; background: black; border: 0px;">
-              <img src="/static/homepage/assets/img/gambar.png" class="card-img-top"
-                style="border-radius: 30px 30px 0px 0px;">
-              <div class="card-body">
-                <h5 class="card-title" style="text-align: center; color: white;">Chest Press Machine</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
-            <div class="card" style="border-radius: 30px; background: black; border: 0px;">
-              <img src="/static/homepage/assets/img/gambar_2.png" class="card-img-top"
-                style="border-radius: 30px 30px 0px 0px;">
-              <div class="card-body">
-                <h5 class="card-title" style="text-align: center; color: white;">Leg Press Machine</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
-            <div class="card" style="border-radius: 30px; background: black; border: 0px;">
-              <img src="/static/homepage/assets/img/gambar_3.png" class="card-img-top"
-                style="border-radius: 30px 30px 0px 0px;">
-              <div class="card-body">
-                <h5 class="card-title" style="text-align: center; color: white;">Big Elliptical Bike</h5>
-              </div>
-            </div>
-          </div>
+        <div id="data_fasilitas" class="row" style="padding: 30px;">
 
         </div>
       </div>
@@ -320,12 +397,14 @@
 
           <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
             <div class="box">
-              <h3 style="text-align: center;">Daily Package</h3>
-              <h4 style="text-align: center;">IDR 10K</h4>
+              <h3 style="text-align: center;">Monthly Package</h3>
+              <h4 style="text-align: center;">IDR 80K</h4>
               <hr style="color: white;">
               <ul style="color: white;">
-                <li>Free unlimited gym for one day</li>
-                <li>Free to use as many tools as you like for one day</li>
+                <li>Unlimited free gym for 30 days</li>
+                <li>Free to user as many tolos as you like for 30 days </li>
+                <li>more satisfied</li>
+                <li>more efficient</li>
               </ul>
               <div class="d-flex justify-content-center" style="padding-top: 150px;">
                 <a class="joinmember scrollto" href="#" style="color: white;">Join Now</a>
@@ -351,7 +430,7 @@
 
           <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="/static/homepage/assets/img/profile.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="/static/homepage/assets/img/profile_placeholder.png" class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Member Name</h4>
                 <span>Member</span>
@@ -363,7 +442,7 @@
 
           <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="/static/homepage/assets/img/profile.jpg" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="/static/homepage/assets/img/profile_placeholder.png" class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Member Name</h4>
                 <span>Member</span>
@@ -381,80 +460,6 @@
 
       </div>
     </section><!-- End Testimonials Section -->
-
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Contact</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint
-            consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit
-            in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <div class="row">
-
-          <div class="col-lg-5 d-flex align-items-stretch">
-            <div class="info">
-              <div class="address">
-                <i class="bi bi-geo-alt"></i>
-                <h4>Location:</h4>
-                <p>A108 Adam Street, New York, NY 535022</p>
-              </div>
-
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p>info@example.com</p>
-              </div>
-
-              <div class="phone">
-                <i class="bi bi-phone"></i>
-                <h4>Call:</h4>
-                <p>+1 5589 55488 55s</p>
-              </div>
-
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
-                frameborder="0" style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
-            </div>
-
-          </div>
-
-          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label for="name">Your Name</label>
-                  <input type="text" name="name" class="form-control" id="name" required>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="name">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email" required>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="name">Subject</label>
-                <input type="text" class="form-control" name="subject" id="subject" required>
-              </div>
-              <div class="form-group">
-                <label for="name">Message</label>
-                <textarea class="form-control" name="message" rows="10" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Contact Section -->
 
   </main><!-- End #main -->
 
@@ -500,8 +505,9 @@
 
           <div class="col-lg-3 col-md-6 footer-links">
             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
-                frameborder="0" style="border:0; width: 100%; height: 300px; border-radius: 15px;" allowfullscreen></iframe>
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
+              frameborder="0" style="border:0; width: 100%; height: 300px; border-radius: 15px;"
+              allowfullscreen></iframe>
           </div>
 
         </div>

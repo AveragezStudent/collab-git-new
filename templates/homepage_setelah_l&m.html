@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>LATEN GYM</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/homepage/assets/img/favicon.png" rel="icon">
+  <link href="/static/homepage/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/homepage/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="/static/homepage/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/homepage/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/static/homepage/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/static/homepage/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/static/homepage/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/static/homepage/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/homepage/assets/css/style.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+
+  <script>
+
+
+    function posting() {
+      let nama = $("#nama").val();
+      let gambar = $("#gambar").prop("files")[0];
+
+
+      let form_data = new FormData();
+
+      form_data.append("nama_give", nama);
+      form_data.append("gambar_give", gambar);
+
+
+      $.ajax({
+        type: "POST",
+        url: "/admin/fasilitas",
+        data: form_data,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          console.log(response);
+          window.location.reload();
+        },
+      });
+    }
+    function fetchDataAndDisplay() {
+      // Make an AJAX GET request to fetch the data from the server
+      $.ajax({
+        type: "GET",
+        url: "/admin/fasilitas/data",
+        success: function (data) {
+          // Update the HTML table with the received data
+          updateTableWithData(data);
+        },
+      });
+    }
+
+    function updateTableWithData(data) {
+      // Clear existing table rows
+      $("#data_fasilitas").empty();
+
+      // Loop through the data and add rows to the table
+      data.forEach(function (item, index) {
+        let row = `<div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="card" style="border-radius: 30px; background: black; border: 0px;">
+              <img src="/static/${item.gambar}" class="card-img-top"
+                style="border-radius: 30px 30px 0px 0px;">
+              <div class="card-body">
+                <h5 class="card-title" style="text-align: center; color: white;">${item.nama}</h5>
+              </div>
+            </div>
+          </div>`;
+        $("#data_fasilitas").append(row);
+      });
+    }
+
+    // Fetch and display data when the page loads
+    $(document).ready(function () {
+      fetchDataAndDisplay();
+    });
+  </script>
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo me-auto"><a href="index.html"><img src="/static/homepage/assets/img/logo_putih.png" alt=""></a>
+      </h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#home">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About Us</a></li>
+          <li><a class="nav-link scrollto" href="#benefit">Benefit</a></li>
+          <li><a class="nav-link scrollto" href="#facilities">Facilities</a></li>
+          <li><a class="nav-link scrollto" href="#opening">Opening Hours</a></li>
+          <li><a class="nav-link scrollto" href="#membership">Membership</a></li>
+          <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 2</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+            </ul>
+          </li> -->
+          <li><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li>
+          <li><a class="joinmember scrollto" href="#">Sign Out</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="home" class="d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+          data-aos="fade-up" data-aos-delay="200">
+          <h1>Transform Your Body</h1>
+          <h1>Transform Your Life</h1>
+          <h2>Join our gym and start your transformation journey today</h2>
+        </div>
+        <!-- <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="assets/img/home.png" class="img-fluid animated" alt="">
+        </div> -->
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients section-bg">
+      <div class="container">
+
+        <div class="row" data-aos="zoom-in">
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/static/homepage/assets/img/star.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/static/homepage/assets/img/star.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/static/homepage/assets/img/star.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/static/homepage/assets/img/star.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/static/homepage/assets/img/star.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/static/homepage/assets/img/star.png" class="img-fluid" alt="">
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Cliens Section -->
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+        </div>
+
+        <div class="row content align-items-center">
+          <div class="col-lg-8">
+            <h2>History of LATEN GYM</h2>
+            <p>
+              Laten Gym was founded in 2019 and has been operating for four years. In a relatively short time, Latent
+              Gym has succeeded in attracting hundreds of members to join.
+            </p>
+            <p>
+              Unlike the gyms in general, Laten Gym is an independent gym that does not provide personal trainers. Even
+              so, members can still achieve their own fitness and health goals by using the modern and complete
+              facilities available in the gym.
+            </p>
+            <p>
+              Since its inception, Laten Gym has been committed to providing the best gym experience and making its
+              members feel satisfied with the services provided. This gym offers a supportive environment for anyone
+              looking to achieve their fitness and health goals.
+            </p>
+            <!-- <ul>
+              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+            </ul> -->
+          </div>
+          <div class="col-lg-4 pt-4 pt-lg-0">
+            <img src="/static/homepage/assets/img/about_us_1.png" alt="1">
+            <img style="margin-top: 10px;" src="/static/homepage/assets/img/about_us_2.png" alt="2">
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Us Section -->
+
+    <section id="benefit" class="benefit">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Why Must LATEN GYM?</h2>
+        </div>
+
+        <div class="row" style="padding: 30px;">
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="box">
+              <i class="d-flex justify-content-center"><img src="/static/homepage/assets/img/icon_1.png" alt=""></i><br>
+              <h3 class="d-flex justify-content-center">Affordable Price</h3>
+              <p style="text-align: center;">Laten Gym offers affordable prices for all people so that everyone can
+                benefit from gym facilities.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="box">
+              <i class="d-flex justify-content-center"><img src="/static/homepage/assets/img/icon_2.png" alt=""></i><br>
+              <h3 class="d-flex justify-content-center">Comfortable Place</h3>
+              <p style="text-align: center;">Laten Gym has a clean area, so that visitors will feel comfortable when
+                exercising.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="box">
+              <i class="d-flex justify-content-center"><img src="/static/homepage/assets/img/icon_3.png" alt=""></i><br>
+              <h3 class="d-flex justify-content-center">Open Everyday</h3>
+              <p style="text-align: center;">Laten Gym provides convenience for customers because it is open every day,
+                so customers can exercise
+                according to a schedule that suits their activities.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- End benefit Section -->
+
+    <section id="facilities" class="facilities">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Facilities Gallery</h2>
+        </div>
+
+        <div id="data_fasilitas" class="row" style="padding: 30px;">
+
+        </div>
+      </div>
+    </section><!-- End Facilities Section -->
+
+    <!-- ======= Opening Section ======= -->
+    <section id="service" class="service section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Opening Hours</h2>
+        </div>
+
+      </div>
+    </section><!-- End Opening Section -->
+
+    <!-- ======= Opening Section ======= -->
+    <section id="opening" class="opening">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="row align-items-center">
+          <div class="col-lg-8 text-center text-lg-start">
+            <h3 style="font-size: 80px;">OPEN EVERYDAY</h3>
+            <p>FROM 09.00 AM TO 09.00 PM</p>
+          </div>
+          <div class="col-lg-4 opening-btn-container text-center">
+            <img src="/static/homepage/assets/img/opening.png" alt="" width="400px">
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End opening Section -->
+
+    <section id="membership" class="membership">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Membership Packages</h2>
+        </div>
+
+        <div class="row  d-flex justify-content-evenly" style="padding: 30px;">
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="box">
+              <h3 style="text-align: center;">Daily Package</h3>
+              <h4 style="text-align: center;">IDR 10K</h4>
+              <hr style="color: white;">
+              <ul style="color: white;">
+                <li>Free unlimited gym for one day</li>
+                <li>Free to use as many tools as you like for one day</li>
+              </ul>
+              <div class="d-flex justify-content-center" style="padding-top: 150px;">
+                <a class="joinmember scrollto" href="#" style="color: white;">Join Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" style="padding: 10px;">
+            <div class="box">
+              <h3 style="text-align: center;">Monthly Package</h3>
+              <h4 style="text-align: center;">IDR 80K</h4>
+              <hr style="color: white;">
+              <ul style="color: white;">
+                <li>Unlimited free gym for 30 days</li>
+                <li>Free to user as many tolos as you like for 30 days </li>
+                <li>more satisfied</li>
+                <li>more efficient</li>
+              </ul>
+              <div class="d-flex justify-content-center" style="padding-top: 150px;">
+                <a class="joinmember scrollto" href="#" style="color: white;">Join Now</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Membership Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Testimonials</h2>
+          <p>Latent gym has hundreds of active members in it, they also give feedback about LATEN GYM</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="/static/homepage/assets/img/profile_placeholder.png" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Member Name</h4>
+                <span>Member</span>
+                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                <p>⭐⭐⭐⭐⭐</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="member d-flex align-items-start">
+              <div class="pic"><img src="/static/homepage/assets/img/profile_placeholder.png" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Member Name</h4>
+                <span>Member</span>
+                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                <p>⭐⭐⭐⭐⭐</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="d-flex justify-content-center" style="margin-top: 40px;">
+          <a class="btn-more-testi" href="/home/member/testimonials">More Testimonials</a>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Form Testi</h2>
+          <p>Share your experience with Laten GYM, down below.</p>
+        </div>
+
+        <div class="row justify-content-center">
+
+          <div class="col-lg-8 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <form action="#" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="form-group">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="name">Your Rating</label>
+                  <select class="form-select" id="rating">
+                    <option selected>-- Select a rating--</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Comment</label>
+                <input type="text" class="form-control" name="subject" id="subject" required>
+              </div>
+              <div class="d-flex justify-content-center" style="margin-top: 40px;">
+                <a type="button" class="btn-more-testi" href="/home/testimonials">Send Testimonials</a>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <img class="mb-3" style="margin-top: -20px; height: 80px;" src="/static/homepage/assets/img/black logo.png"
+              alt="">
+            <p>
+              A108 Adam Street <br>
+              New York, NY 535022<br>
+              United States <br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#home">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">About US</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#benefit">Benefit</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#facilities">Facilities</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#opening">Opening Hours</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#membership">Membership</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#testimonials">Testimonials</a></li>
+            </ul>
+          </div>
+
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>More about LATEN GYM</h4>
+            <p>Laten Gym is the best gym with affordable prices in Panarukan.
+              Join us and be healthier and fitter!</p>
+          </div>
+
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
+              frameborder="0" style="border:0; width: 100%; height: 300px; border-radius: 15px;"
+              allowfullscreen></iframe>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Laten Gym</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/ -->
+        Designed by <a href="#" style="color: #C1E701;">Lovebird Group.</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/homepage/assets/vendor/aos/aos.js"></script>
+  <script src="/static/homepage/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/homepage/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/static/homepage/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/static/homepage/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/static/homepage/assets/vendor/waypoints/noframework.waypoints.js"></script>
+  <script src="/static/homepage/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/static/homepage/assets/js/main.js"></script>
+
+</body>
+
+</html>
